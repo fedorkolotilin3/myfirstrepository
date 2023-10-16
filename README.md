@@ -14,13 +14,13 @@ int ch_to_int(char x) {
 }
 
 int main(int argc, char **argv) {
-  argc-= 1;
+  argc -= 1;
   int sum = 0;
   int mult = 1;
   int *pref_sums = new int[argc];
   int *inp = new int[argc];
   for (int i = 1; i <= argc; i++) {
-    inp[i-1] = ch_to_int(*argv[i]);
+    inp[i - 1] = ch_to_int(*argv[i]);
   }
   for (int i = 0; i < argc; i++) {
     sum += inp[i];
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     if (i == 0) {
       pref_sums[i] = 0;
     } else {
-      pref_sums[i] = pref_sums[i - 1] + inp[i-1];
+      pref_sums[i] = pref_sums[i - 1] + inp[i - 1];
     }
   }
   int *arrays = new int[sum];
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   }
   int pos = 0;
   int *idxs = new int[argc];
-  for(int i = 0; i < argc; i++){
+  for (int i = 0; i < argc; i++) {
     idxs[i] = 0;
   }
   long long mega_sum = 0;
@@ -49,7 +49,6 @@ int main(int argc, char **argv) {
       mega_mult *= (long long) arrays[pref_sums[i] + idxs[i]];
     }
     mega_sum += mega_mult;
-    cout << mega_mult << '\n';
     idxs[pos] += 1;
     while (pos <= argc && idxs[pos] == inp[pos]) {
       idxs[pos] = 0;
