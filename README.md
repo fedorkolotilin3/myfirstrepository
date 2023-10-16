@@ -12,32 +12,35 @@ int ch_to_int(char x) {
   }
   return -1;
 }
+
 int argc;
 int *idxs;
 int *pref_sums;
 int *inp;
 int *arrays;
 
-long long mult_of_all(int t){
-  if(t == argc){
+long long mult_of_all(int t) {
+  if (t == argc) {
     return 1;
   }
   long long ans = 0;
-  bool fl = 1;
-  for(int i = 0; i < inp[t]; i++){
-    for(int j = 0; j < t; j++){
-      if(idxs[j] == i){
+  for (int i = 0; i < inp[t]; i++) {
+    bool fl = 1;
+    for (int j = 0; j < t; j++) {
+      if (idxs[j] == i) {
         fl = 0;
       }
     }
     if (fl) {
-      ans += mult_of_all(t+1) * arrays[pref_sums[t] + i];
+      idxs[t] = i;
+      ans += mult_of_all(t + 1) * arrays[pref_sums[t] + i];
     }
-  }	
+  }
   return ans;
 }
+
 int main(int arg_c, char **argv) {
-  argc = arg_c-1;
+  argc = arg_c - 1;
   int sum = 0;
   int mult = 1;
   pref_sums = new int[argc];
@@ -60,7 +63,6 @@ int main(int arg_c, char **argv) {
       cin >> arrays[pref_sums[i] + j];
     }
   }
-  int pos = 0;
   idxs = new int[argc];
   cout << mult_of_all(0);
 }
