@@ -12,13 +12,36 @@ int ch_to_int(char x) {
   }
   return -1;
 }
+int argc;
+int *idxs;
+int *pref_sums;
+int *inp;
+int *arrays;
 
-int main(int argc, char **argv) {
-  argc -= 1;
+long long mult_of_all(int t){
+  if(t == argc){
+    return 1;
+  }
+  long long ans = 0;
+  bool fl = 1;
+  for(int i = 0; i < inp[t]; i++){
+    for(int j = 0; j < t; j++){
+      if(idxs[j] == i){
+        fl = 0;
+      }
+    }
+    if (fl) {
+      ans += mult_of_all(t+1) * arrays[pref_sums[t] + i];
+    }
+  }	
+  return ans;
+}
+int main(int arg_c, char **argv) {
+  argc = arg_c-1;
   int sum = 0;
   int mult = 1;
-  int *pref_sums = new int[argc];
-  int *inp = new int[argc];
+  pref_sums = new int[argc];
+  inp = new int[argc];
   for (int i = 1; i <= argc; i++) {
     inp[i - 1] = ch_to_int(*argv[i]);
   }
@@ -31,30 +54,13 @@ int main(int argc, char **argv) {
       pref_sums[i] = pref_sums[i - 1] + inp[i - 1];
     }
   }
-  int *arrays = new int[sum];
+  arrays = new int[sum];
   for (int i = 0; i < argc; i++) {
     for (int j = 0; j < inp[i]; j++) {
       cin >> arrays[pref_sums[i] + j];
     }
   }
   int pos = 0;
-  int *idxs = new int[argc];
-  for (int i = 0; i < argc; i++) {
-    idxs[i] = 0;
-  }
-  long long mega_sum = 0;
-  for (int t = 0; t < mult; t++) {
-    long long mega_mult = 1;
-    for (int i = 0; i < argc; i++) {
-      mega_mult *= (long long) arrays[pref_sums[i] + idxs[i]];
-    }
-    mega_sum += mega_mult;
-    idxs[pos] += 1;
-    while (pos <= argc && idxs[pos] == inp[pos]) {
-      idxs[pos] = 0;
-      pos += 1;
-      idxs[pos] += 1;
-    }
-  }
-  cout << mega_sum;
+  idxs = new int[argc];
+  cout << mult_of_all(0);
 }
