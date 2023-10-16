@@ -65,4 +65,8 @@ int main(int arg_c, char **argv) {
   }
   idxs = new int[argc];
   cout << mult_of_all(0);
+  delete [] idxs;
+  delete [] arrays;
+  delete [] pref_sums;
+  delete [] inp;      
 }
